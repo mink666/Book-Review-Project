@@ -29,7 +29,6 @@
                 </div>
             </div>
 
-            {{-- Email/Phone Grid: Adjusted text colors --}}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-3 mb-6 text-sm">
                 <div class="sm:col-span-1">
                     <strong class="font-semibold text-gray-600 block">Email:</strong>
@@ -44,7 +43,6 @@
                     <p class="text-gray-800 whitespace-pre-wrap">{{ $author->bio ?? 'N/A' }}</p>
                 </div>
             </div>
-
 
             <div class="mt-6 border border-gray-200 rounded-md p-4 bg-gray-50/70">
                 <h2 class="mb-4 text-xl font-semibold text-gray-900">Books by {{ $author->name }}</h2>

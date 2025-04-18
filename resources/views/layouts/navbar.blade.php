@@ -1,6 +1,5 @@
 <nav class="z-50 w-full">
     <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-        {{-- 1. Left Side: Logo and Main Links --}}
         <div class="flex items-center space-x-4 sm:space-x-6">
             <a href="{{ route('home') }}" class="text-2xl font-bold text-slate-800 hover:text-gray-500">
                 E-Library
@@ -15,14 +14,12 @@
             </div>
         </div>
 
-        {{-- 2. Right Side: Authentication Links/Info --}}
         <div class="flex items-center space-x-3">
             @guest
                 <a href="{{ route('login') }}" class="text-sm font-medium text-gray-700 bg-white hover:text-white px-3 py-1 rounded-md hover:bg-gray-700">
                     Log In
                 </a>
                 <a href="{{ route('register') }}" class="text-sm font-medium text-white bg-gray-700 px-3 py-1 rounded-md hover:bg-white hover:text-gray-700">
-                    {{-- Use a different color for the sign-up button --}}
                     Sign Up
                 </a>
             @endguest

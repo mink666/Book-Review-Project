@@ -16,7 +16,6 @@
 
     <div class="max-w-2xl mx-auto my-8">
         <div class="bg-white p-6 sm:p-8 rounded-lg shadow-md">
-            {{-- Book Cover Image --}}
             <div class="mb-6 md:mb-8">
                 @if($book->cover_image_path)
                     <div class="flex justify-center">
@@ -31,10 +30,8 @@
                 @endif
             </div>
 
-            {{-- Book Title --}}
             <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
                 <h1 class="text-3xl font-bold text-gray-900 mb-3 sm:mb-0">{{ $book->title }}</h1>
-                 {{-- Buttons --}}
                 <div class = "flex space-x-2 flex-shrink-0">
                     <a href="{{ route('books.edit', $book) }}"
                        class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150">
@@ -52,9 +49,7 @@
                 </div>
             </div>
 
-             {{-- Author and Rating Info --}}
-            <div class="book-info border-b border-gray-200 py-3 mb-3"> {{-- Changed to border-y --}}
-                {{-- Author Links --}}
+            <div class="book-info border-b border-gray-200 py-3 mb-3">
                 <div class="book-author mb-1 text-lg font-semibold text-gray-700">
                     by
                     @foreach ($book->authors as $author)
@@ -64,9 +59,8 @@
                     @endforeach
                 </div>
 
-                {{-- Average Rating Display --}}
                 <div class="book-rating flex items-center">
-                    <span class="text-yellow-500 mr-1 flex items-center flex-shrink-0 text-lg"> {{-- Slightly larger stars --}}
+                    <span class="text-yellow-500 mr-1 flex items-center flex-shrink-0 text-lg">
                         @php $rating = round($book->reviews_avg_rating ?? 0); @endphp
                         @for ($i = 1; $i <= 5; $i++)
                             <span class="inline-block">{{ $i <= $rating ? '★' : '☆' }}</span>
@@ -81,19 +75,15 @@
                 </div>
             </div>
 
-            {{-- Description Section (Moved outside book-info) --}}
             <div class="mb-8">
                 <h3 class="text-2xl font-semibold text-gray-900 mb-2 py-2">Description</h3>
                 <p class="text-gray-700 whitespace-pre-wrap leading-relaxed break-words">{{ $book->description ?? 'No description available.' }}</p>
             </div>
 
-            {{-- Reviews Section Container --}}
-            {{-- Removed border/bg - reviews list now sits directly on white page bg --}}
             <div class="py-2">
                 <h2 class="mb-2 text-2xl font-semibold text-gray-900 border-t py-3">Reviews</h2>
 
-                 {{-- ADDED: Add Review Form --}}
-                 @auth {{-- Only show form if user is logged in --}}
+                 @auth
                     <div class="mb-8 p-4 bg-gray-50 rounded-lg shadow-sm border border-gray-200">
                         <h3 class="text-lg font-medium text-gray-800 mb-3">Leave Your Review</h3>
                         <form method="POST" action="{{ route('books.reviews.store', $book) }}">
@@ -125,38 +115,31 @@
                     </div>
                  @endauth
 
-                {{-- Existing Reviews List --}}
                 <ul>
                     @forelse ($book->reviews as $review)
                         <li class="mb-4 bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
                             <div>
-                                {{-- Top Row: Rating, User, Date --}}
                                 <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
                                     <div class="font-semibold flex items-center text-sm">
-                                         {{-- Stars --}}
                                          <span class="text-yellow-500 mr-1 flex-shrink-0">
                                              @for ($i = 1; $i <= 5; $i++)
                                                 <span class="inline-block">{{ $i <= $review->rating ? '★' : '☆' }}</span>
                                              @endfor
                                          </span>
-                                         {{-- User Name --}}
                                          <span class="ml-2 text-gray-800 font-medium">
-                                             by {{ $review->user->name ?? 'Deleted User' }} {{-- ADDED user name --}}
+                                             by {{ $review->user->name ?? 'Deleted User' }}
                                          </span>
                                     </div>
-                                    {{-- Date --}}
                                     <div class="text-xs text-gray-500">
                                         {{ $review->created_at->diffForHumans() }}
                                     </div>
                                 </div>
-                                {{-- Review Text --}}
                                 <p class="text-gray-700 mt-1 text-sm">
-                                    <em>{{ $review->review ?? '(no review)' }}</em>
+                                    {{ $review->review ?? '(no review)' }}
                                 </p>
 
                                 @if (auth()->check() && auth()->id() === $review->user_id)
                                 <div class="mt-3 pt-2 border-t border-gray-100 flex items-center justify-end gap-2">
-                                    {{-- Delete Form --}}
                                     <form method="POST" action="{{ route('reviews.destroy', $review) }}" class="inline">
                                         @csrf
                                         @method('DELETE')
@@ -170,15 +153,14 @@
                             </div>
                         </li>
                     @empty
-                        {{-- "No reviews" message --}}
                         <li class="text-center py-4 px-6 bg-white rounded border border-gray-200">
-                             <p class="font-semibold text-gray-600">No reviews yet</p>
+                             <p class="font-semibold italic text-gray-600">No reviews yet</p>
                         </li>
                     @endforelse
                 </ul>
-            </div> {{-- End Reviews Section Container --}}
-        </div> {{-- End Main Content Box --}}
-    </div> {{-- End max-width wrapper --}}
+            </div>
+        </div>
+    </div>
 @endsection
 
 

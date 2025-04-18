@@ -22,10 +22,9 @@
         @endguest
     </section>
 
-    {{-- 3. Most Popular Books Section - Spans the padded width --}}
 <div class="bg-white p-6 sm:p-8 rounded-lg shadow-md mb-16">
     <section class="mb-12">
-        <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3">Most Popular Last Month</h2> {{-- Increased border width --}}
+        <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3">Most Popular Last Month</h2>
         @if ($popularBooks->count())
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 @foreach ($popularBooks as $book)
@@ -57,7 +56,7 @@
                                 @unless($loop->last), @endunless
                             @endforeach
                         </p>
-                            {{-- 2. Rating/Review Block: MOVED INSIDE the p-4 div --}}
+
                             <div class="mt-3 pt-3 border-t border-gray-100">
                                 <div class="flex items-center text-sm text-gray-700 font-medium mb-1">
                                     <span class="text-yellow-500 mr-1 inline-block flex-shrink-0">
@@ -77,14 +76,14 @@
                 @endforeach
             </div>
         @else
-            <p class="text-gray-600 bg-gray-50 p-4 rounded shadow-sm border">No popular books found for the last month.</p> {{-- Adjusted bg slightly --}}
+            <p class="text-gray-600 bg-gray-50 p-4 rounded shadow-sm border">No popular books found for the last month.</p>
         @endif
     </section>
 </div>
 
 <div class="bg-white p-6 sm:p-8 rounded-lg shadow-md mb-16">
     <section class="mb-12">
-        <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3">Recently Added Books</h2> {{-- Increased border width --}}
+        <h2 class="text-3xl font-semibold text-gray-800 mb-6 pb-3">Recently Added Books</h2>
         @if ($recentBooks->count())
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
                 @foreach ($recentBooks as $book)
@@ -116,7 +115,7 @@
                                 @unless($loop->last), @endunless
                             @endforeach
                         </p>
-                            {{-- 2. Rating/Review Block: MOVED INSIDE the p-4 div --}}
+
                             <div class="mt-3 pt-3 border-t border-gray-100">
                                 <div class="flex items-center text-sm text-gray-700 font-medium mb-1">
                                     <span class="text-yellow-500 mr-1 inline-block flex-shrink-0">
@@ -138,7 +137,7 @@
         @else
             <p class="text-gray-600 bg-gray-50 p-4 rounded shadow-sm border">No books added recently.</p>
         @endif
-    </section> {{-- End Section --}}
+    </section>
     </div>
-</div> {{-- End Padding Container --}}
+</div> 
 @endsection

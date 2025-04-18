@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         // Log the new user in immediately
         Auth::login($user);
-        $request->session()->regenerate(); // Regenerate session ID
+        $request->session()->regenerate();
 
         return redirect()->route('home')->with('success', 'Registration successful! Welcome, ' . $user->name . '!');
     }
@@ -50,7 +50,6 @@ class AuthController extends Controller
 
         $remember = $request->boolean('remember');
 
-        // Attempt to authenticate the user
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
@@ -68,8 +67,8 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        $request->session()->invalidate(); // Invalidate their session
-        $request->session()->regenerateToken(); // Regenerate CSRF token
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return redirect('/')->with('success', 'You have been logged out.');
     }

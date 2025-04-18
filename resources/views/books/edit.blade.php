@@ -107,8 +107,6 @@
         </form>
     </div>
 
-    <!-- Author Modal -->
-    @include('partials._modal')
-
+@include('partials._modal')
 </div>
 @endsection

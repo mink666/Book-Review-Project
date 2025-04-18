@@ -1,66 +1,121 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Book Review App (E-Library)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web application built with Laravel for Browse books and authors, reading, and writing reviews. Users can register, log in, manage books (including cover images) and authors, filter and search books, and interact with reviews.
 
-## About Laravel
+Developed by: **Minh Nguyen Anh**
+Project for: **[Aptech PHP Course]**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features Implemented
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* **Authentication:**
+    * User Registration (Name, Email, Password)
+    * User Login
+    * User Logout
+    * Guest/Auth access control for relevant pages/actions
+* **Books:**
+    * List all books (Index page) with pagination
+    * View book details (Show page)
+    * Create new books
+    * Edit existing books
+    * Delete books
+    * Book Cover Image Uploads (Create/Edit) & Display
+    * Search books by Title or Author(s) name
+    * Filter books (Latest, Popular Last Month/6 Months, Highest Rated Last Month/6 Months)
+    * Display average star rating and review count
+* **Authors:**
+    * List all authors (Index page) with pagination and book count
+    * View author details (Show page) including their books
+    * Create new authors
+    * Edit existing authors
+    * Delete authors
+    * Search authors by name
+    * Dynamic "Add New Author" modal on Book Create/Edit forms (using Alpine.js + Fetch)
+* **Relationships:**
+    * Books <=> Authors (Many-to-Many)
+    * Books <=> Reviews (One-to-Many)
+    * Users <=> Reviews (One-to-Many)
+* **Reviews (Bonus Feature):**
+    * Display reviews list on Book Detail page (ordered latest first, shows user name, rating stars, text, date).
+    * Add new review (rating + optional text) via form on Book Detail page (requires login).
+    * Delete own reviews (requires login, includes confirmation).
+    * **(Not Implemented):** Editing existing reviews.
+* **General:**
+    * Homepage with curated lists (Popular, Recent books).
+    * Responsive design elements using Tailwind CSS.
+    * Reusable forms using Blade partials.
+    * Conditional styling for form validation errors.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Technologies Used
 
-## Learning Laravel
+* PHP / Laravel Framework
+* MySQL (or your configured database)
+* Blade Templating Engine
+* Tailwind CSS
+* Alpine.js (for Add Author modal)
+* Composer
+* NPM
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Setup and Installation Instructions
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Follow these steps to set up the project locally:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1.  **Clone the Repository:**
+    ```bash
+    git clone [https://github.com/](https://github.com/)[YourUsername]/[Your-Repo-Name].git
+    cd [Your-Repo-Name]
+    ```
 
-## Laravel Sponsors
+2.  **Install PHP Dependencies:**
+    ```bash
+    composer install
+    ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+3.  **Install Frontend Dependencies:**
+    ```bash
+    npm install
+    ```
 
-### Premium Partners
+4.  **Compile Frontend Assets:**
+    ```bash
+    npm run dev
+    ```
+    *(Use `npm run build` for production)*
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+5.  **Environment Configuration:**
+    * Copy the example environment file:
+        ```bash
+        cp .env.example .env
+        ```
+    * Generate the application key:
+        ```bash
+        php artisan key:generate
+        ```
+    * **Edit the `.env` file:** Configure your database connection details (set `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD` according to your local setup). Ensure `APP_URL` is correct (e.g., `http://127.0.0.1:8000`).
 
-## Contributing
+6.  **Database Migration:**
+    * Make sure you have created the database specified in your `.env` file (e.g., `book_review_app`).
+    * Run the migrations:
+        ```bash
+        php artisan migrate
+        ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+7.  **Storage Link:** Create the symbolic link for public file storage (needed for cover images):
+    ```bash
+    php artisan storage:link
+    ```
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Usage
 
-## Security Vulnerabilities
+1.  **Serve the Application:**
+    ```bash
+    php artisan serve
+    ```
+2.  **Access the Site:** Open your web browser and navigate to the URL provided (usually `http://127.0.0.1:8000`).
+3.  **Register/Login:** Use the "Sign Up" or "Log In" buttons to create an account or log in.
+4.  **Explore:** Browse books and authors, view details, and (if logged in) add reviews or manage books/authors.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Known Issues / Limitations
 
-## License
+* Editing existing reviews is not implemented.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

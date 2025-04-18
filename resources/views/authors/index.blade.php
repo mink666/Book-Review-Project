@@ -31,7 +31,6 @@
             </div>
         </form>
 
-
         <ul>
             @forelse ($authors as $author)
                 <li class="mb-4">
@@ -63,7 +62,6 @@
             @endforelse
         </ul>
 
-        {{-- Pagination --}}
         @if ($authors->hasPages())
             <div class="mt-6">
                 {{ $authors->links() }}

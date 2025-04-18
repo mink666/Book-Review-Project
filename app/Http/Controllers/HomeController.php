@@ -15,8 +15,8 @@ class HomeController extends Controller
     {
 
         $recentBooks = Book::with('authors')
-        ->withCount('reviews') // <-- ADDED: Load review count
-        ->withAvg('reviews', 'rating') // <-- ADDED: Load average rating
+        ->withCount('reviews')
+        ->withAvg('reviews', 'rating')
         ->latest()
         ->take(5)
         ->get();

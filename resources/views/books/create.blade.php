@@ -58,7 +58,6 @@
         @csrf
         @include('partials._book_form', ['authors' => $authors])
 
-        {{-- Submit/Cancel Buttons --}}
         <div class="mt-8 flex justify-end gap-3">
             <a href="{{ route('books.index') }}"
                class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300 text-sm">
@@ -72,7 +71,6 @@
     </form>
 </div>
 
-    <!-- Author Modal -->
-    @include('partials._modal')
+@include('partials._modal')
 </div>
 @endsection

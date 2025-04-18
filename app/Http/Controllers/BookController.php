@@ -41,7 +41,6 @@ class BookController extends Controller
     ]);
 }
 
-
     /**
      * Show the form for creating a new resource.
      */
@@ -58,60 +57,50 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        // 1. Add cover_image validation rule
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'authors' => 'required|array|min:1',
             'authors.*' => 'exists:authors,id',
-            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048', // Max 2MB example
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5120'
         ]);
 
-        $imagePath = null; // Initialize image path
+        $imagePath = null;
 
-        // 2. Check if an image was uploaded and is valid
         if ($request->hasFile('cover_image') && $request->file('cover_image')->isValid()) {
             $file = $request->file('cover_image');
-            // Create a unique filename
             $fileName = time() . '_' . $file->getClientOriginalName();
             try {
-                // Store the file in storage/app/public/covers and get the path
                 $storedPath = $file->storeAs('covers', $fileName, 'public');
 
                 if ($storedPath) {
-                    $imagePath = $storedPath; // Assign path if successful
+                    $imagePath = $storedPath;
                     Log::info("Stored cover image: " . $imagePath);
                 } else {
                     Log::error("Failed to store cover image using storeAs.");
-                    // Optional: Redirect back with specific storage error
-                    // return back()->withInput()->with('error', 'Could not save cover image.');
                 }
             } catch (\Exception $e) {
                 Log::error("Exception storing cover image: " . $e->getMessage());
-                // Optional: Redirect back with specific storage error
-                // return back()->withInput()->with('error', 'Server error saving cover image.');
             }
         }
 
-        // 3. Prepare data for Book creation
         $bookData = [
             'title' => $validated['title'],
             'description' => $validated['description'],
-            'cover_image_path' => $imagePath, // Add the image path (will be null if no upload/error)
+            'cover_image_path' => $imagePath,
         ];
 
-        // 4. Create the Book
         $book = Book::create($bookData);
 
-        // 5. Attach Authors
-        // Ensure $validated['authors'] exists before attaching
         if (!empty($validated['authors'])) {
             $book->authors()->attach($validated['authors']);
         }
-
         return redirect()->route('books.index')->with('success', 'Book created successfully');
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show(Book $book)
 {
     $book->load([
@@ -157,45 +146,36 @@ class BookController extends Controller
         $validatedBookData = $request->validate($bookRules);
         $validatedAuthorData = $request->validate($authorRules);
 
-        $imagePath = $book->cover_image_path; // Get the current image path
+        $imagePath = $book->cover_image_path;
 
-        // 2. Handle potential new image upload
         if ($request->hasFile('cover_image') && $request->file('cover_image')->isValid()) {
             $file = $request->file('cover_image');
             $fileName = time() . '_' . $file->getClientOriginalName();
 
             try {
-                // Store the new file
                 $storedPath = $file->storeAs('covers', $fileName, 'public');
 
                 if ($storedPath) {
                     Log::info("Stored new cover image: " . $storedPath);
-                    // Delete the old image *after* successfully storing the new one
-                    if ($imagePath) { // Check if an old path exists
+                    if ($imagePath) {
                         Log::info("Deleting old cover image: " . $imagePath);
                         Storage::disk('public')->delete($imagePath);
                     }
-                    $imagePath = $storedPath; // Update imagePath variable with the new path
+                    $imagePath = $storedPath;
                 } else {
                      Log::error("Failed to store updated cover image using storeAs.");
-                     // Keep the old path if storage fails
                 }
             } catch (\Exception $e) {
                 Log::error("Exception storing updated cover image: " . $e->getMessage());
-                // Keep the old path if storage fails
             }
         }
 
-        // 3. Prepare data for update
-        $updateData = $validatedBookData; // Includes title, description
-        unset($updateData['cover_image']); // Remove file object from data to be saved
-        $updateData['cover_image_path'] = $imagePath; // Add the final path (new or old or null)
+        $updateData = $validatedBookData;
+        unset($updateData['cover_image']);
+        $updateData['cover_image_path'] = $imagePath;
 
-        // 4. Update the book
         $book->update($updateData);
 
-        // 5. Sync authors
-        // Ensure $validatedAuthorData['authors'] exists before syncing
         if (!empty($validatedAuthorData['authors'])) {
             $book->authors()->sync($validatedAuthorData['authors']);
         }
@@ -209,17 +189,14 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         try {
-            $imagePath = $book->cover_image_path; // Get path before deleting book record
+            $imagePath = $book->cover_image_path;
 
-            // Delete the book record (assuming cascade deletes pivot entries)
             $book->delete();
 
-            // 1. Delete the associated image file *after* deleting the record
             if ($imagePath) {
                 Log::info("Deleting cover image for deleted book: " . $imagePath);
                 Storage::disk('public')->delete($imagePath);
             }
-
             return redirect()->route('books.index')->with('success', 'Book deleted successfully!');
 
         } catch (\Exception $e) {
