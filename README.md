@@ -11,7 +11,7 @@ Please follow these steps carefully to set up the project locally:
 
 1.  **Clone Repository:**
     ```bash
-    git clone [https://github.com/mink666/Book-Review-Project.git](https://github.com/mink666/Book-Review-Project.git)
+    git clone https://github.com/mink666/Book-Review-Project.git
     cd [Your-Repo-Name]
     ```
 
